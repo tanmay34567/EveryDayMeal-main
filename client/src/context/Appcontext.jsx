@@ -2,8 +2,21 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
+// Configure axios defaults
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
+// Add response interceptor to handle auth errors
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      // Clear local state on auth errors
+      localStorage.removeItem('isAuthenticated');
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const Appcontext = createContext();
 
@@ -53,11 +66,13 @@ export const Appcontextprovider = ({ children }) => {
 
   const clearStudent = async () => {
     try {
-      await axios.get('/api/Student/logout');
-      setStudent(null);
-      navigate("/");
+      await axios.post('/api/Student/logout');
     } catch (error) {
       console.error('Error logging out student:', error);
+    } finally {
+      // Always clear local state
+      setStudent(null);
+      navigate("/");
     }
   };
 

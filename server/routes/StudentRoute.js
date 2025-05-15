@@ -15,7 +15,7 @@ const StudentRouter = express.Router();
 StudentRouter.post('/register', registerStudent);
 StudentRouter.post('/login', loginStudent);
 StudentRouter.get('/is-auth', authStudent, isAuthStudent);
-StudentRouter.get('/logout', authStudent, logoutStudent);
+StudentRouter.post('/logout', logoutStudent);
 StudentRouter.get('/vendors-with-menus', getVendorsWithMenus);
 
 export default StudentRouter;
