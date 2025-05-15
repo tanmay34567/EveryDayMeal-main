@@ -17,7 +17,7 @@ const port = process.env.PORT || 4000;
 await connectDB()
 
 //Allow Multiple version 
-const allowedOrigins = ['http://localhost:5173','https://every-day-meal-main.vercel.app/']
+const allowedOrigins = ['http://localhost:5173','https://every-day-meal-main.vercel.app']
 
 
 // Middleware
